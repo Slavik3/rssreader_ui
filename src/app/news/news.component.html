@@ -1,0 +1,11 @@
+<input type="text" class="form-control" (keyup)="onNameKeyUp($event)">
+<button type="button" class="btn btn-primary" (click)="getNewsBySrc()">Get News by src</button>
+<br><br>
+<button type="button" class="btn btn-primary" (click)="getNews()">Get News</button>
+<br><br>
+<div *ngFor="let element of items">
+  <div><a href="{{element.link}}">{{element.title}}</a></div>
+  <div>{{element.description}}</div>
+  <div>{{element.pubDate | date:'medium'}}</div>
+  <br>
+</div>

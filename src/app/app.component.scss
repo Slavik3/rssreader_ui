@@ -1,0 +1,57 @@
+.flex-container {
+  margin: auto;
+  width: 320px;
+  display: flex;
+  flex-flow: row wrap;
+  vertical-align: middle;
+}
+
+input {
+  &[type=button] {
+    width: 70px;
+    height: 70px;
+    font-size: 50px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    margin-right: 8px;
+  }
+
+  &[name=solve] {
+    width: 305px;
+  }
+
+  &[type=text] {
+    margin-bottom: 2.5px;
+    text-align: right;
+    width: 305px;
+    height: 40px;
+    font-size: 40px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  input[type=button] {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    margin: 0px;
+  }
+  .flex-container {
+    margin: auto;
+    width: 160px;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  input {
+    &[type=text] {
+      text-align: right;
+      width: 160px;
+      height: 32px;
+      font-size: 28px;
+    }
+
+    &[name=solve] {
+      width: 160px;
+    }
+  }
+}
