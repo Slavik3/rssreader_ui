@@ -1,4 +1,67 @@
-  source URL:
-  <input type="text" class="form-control" id="src" (keyup)="onNameKeyUp($event)">
-  <button type="button" class="btn btn-primary" (click)="addSrc()">Add src</button>
+  <table class="table table-hover" style="text-align: left;">
+    <thead>
+    <tr>
+      <th>source URL</th>
+      <th>title name</th>
+      <th>description name</th>
+      <th>link name</th>
+      <th>pubDate name</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let sourceItem of sourceItems">
+      <input type="hidden" value="{{sourceItem.id}}">
+      <td style="width: 35%;"><input value="{{sourceItem.sourceURL}}" class="form-control"></td>
+      <td style="width: 15%;"><input value="{{sourceItem.title}}" class="form-control"></td>
+      <td style="width: 18%;"><input value="{{sourceItem.description}}" class="form-control"></td>
+      <td style="width: 10%;"><input value="{{sourceItem.link}}" class="form-control"></td>
+      <td style="width: 15%;"><input value="{{sourceItem.pubDate}}" class="form-control"></td>
+      <td>
+        <a href="#" data-id="{{sourceItem.id}}" class="delete" data-toggle="modal" id="{{sourceItem.id}}" (click)="delete(sourceItem.id)" > <!--href="#deleteEmployeeModal"-->
+          <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 30%;"><input [(ngModel)]="sourceURL" type="text" class="form-control" id="src"></td>
+      <td><input [(ngModel)]="title" type="text" class="form-control"></td>
+      <td><input [(ngModel)]="description" type="text" class="form-control"></td>
+      <td><input [(ngModel)]="link" type="text" class="form-control"></td>
+      <td><input [(ngModel)]="pubDate" type="text" class="form-control"></td>
+
+      <td><button type="button" class="btn btn-primary" (click)="addSrc()">Add</button></td>
+    </tr>
+    </tbody>
+  </table>
+
+
+
+
+
+  <!-- Delete source HTML -->
+  <!--<div id="deleteEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form>
+          <div class="modal-header">
+            <h4 class="modal-title">Delete source</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete these source?</p>
+            <p class="text-warning"><small>This action cannot be undone.</small></p>
+          </div>
+          <div class="modal-footer">
+            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+            <input type="submit" class="btn btn-danger" value="Delete" (click)="delete()">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>-->
+
+
+
+
 

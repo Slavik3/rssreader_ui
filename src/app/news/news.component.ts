@@ -9,24 +9,34 @@ import {HttpClient} from '@angular/common/http';
 export class NewsComponent implements OnInit {
   name: string;
   items: any;
+  src: any;
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
-  }
-
-  onNameKeyUp(event: any) {
-    this.name = event.target.value;
-  }
-  getNews() {
     this.httpClient.get('http://localhost:8080/feeds').subscribe((data) => {
       this.items = data;
     });
+
+    this.httpClient.get('http://localhost:8080/feeds/src').subscribe((data) => {
+      this.src = data;
+      console.log(this.src);
+    });
   }
 
-  getNewsBySrc() {
+  /*onNameKeyUp(event: any) {
+    this.name = event.target.value;
+  }*/
+  onChange(src) {
+    this.name = src;
     this.httpClient.get(`http://localhost:8080/feeds?source=${this.name}`).subscribe((data) => {
       this.items = data;
     });
   }
+
+  /*getNewsBySrc() {
+    this.httpClient.get(`http://localhost:8080/feeds?source=${this.name}`).subscribe((data) => {
+      this.items = data;
+    });
+  }*/
 
 }
