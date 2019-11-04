@@ -18,17 +18,22 @@
       <td style="width: 10%;"><input value="{{sourceItem.link}}" class="form-control"></td>
       <td style="width: 15%;"><input value="{{sourceItem.pubDate}}" class="form-control"></td>
       <td>
-        <a href="#" data-id="{{sourceItem.id}}" class="delete" data-toggle="modal" id="{{sourceItem.id}}" (click)="delete(sourceItem.id)" > <!--href="#deleteEmployeeModal"-->
+        <a href="#editEmployeeModal" data-id="{{sourceItem.id}}" class="save" data-toggle="modal" id="{{sourceItem.id}}" (click)="open(sourceItem)" >
+          <i class="material-icons" data-toggle="tooltip" title="Save">&#xe161;</i>
+        </a>
+      </td>
+      <td>
+        <a href="#deleteEmployeeModal" data-id="{{sourceItem.id}}" class="delete" data-toggle="modal" id="{{sourceItem.id}}" (click)="delete(sourceItem.id)" > <!--href="#deleteEmployeeModal"-->
           <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
         </a>
       </td>
     </tr>
     <tr>
-      <td style="width: 30%;"><input [(ngModel)]="sourceURL" type="text" class="form-control" id="src"></td>
-      <td><input [(ngModel)]="title" type="text" class="form-control"></td>
-      <td><input [(ngModel)]="description" type="text" class="form-control"></td>
-      <td><input [(ngModel)]="link" type="text" class="form-control"></td>
-      <td><input [(ngModel)]="pubDate" type="text" class="form-control"></td>
+      <td style="width: 30%;"><input formControlName="s_url" type="url" [(ngModel)]="newSourceURL" type="text" class="form-control"></td>
+      <td><input class="form-control" value="title"></td>
+      <td><input class="form-control" value="description"></td>
+      <td><input class="form-control" value="link"></td>
+      <td><input class="form-control" value="pubDate"></td>
 
       <td><button type="button" class="btn btn-primary" (click)="addSrc()">Add</button></td>
     </tr>
@@ -37,7 +42,48 @@
 
 
 
-
+  <!-- Edit Modal HTML -->
+  <div id="editEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form>
+          <div class="modal-header">
+            <h4 class="modal-title">Edit Sources</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input class="form-control" value="{{editItem.id}}" required>
+            </div>
+            <div class="form-group">
+              <label>source URL</label>
+              <input [(ngModel)]="sourceURL" name="modifiedSourceURL" class="form-control" value="{{editItem.sourceURL}}" required>
+            </div>
+            <div class="form-group">
+              <label>title name</label>
+              <input [(ngModel)]="title" name="title" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>description name</label>
+              <textarea [(ngModel)]="description" name="description" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>link name</label>
+              <input [(ngModel)]="link" type="text" name="link" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>pubDate name</label>
+              <input [(ngModel)]="pubDate" name="pubDate" class="form-control" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+            <input type="submit" class="btn btn-info" value="Save" (click)="save(editItem)">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- Delete source HTML -->
   <!--<div id="deleteEmployeeModal" class="modal fade">
