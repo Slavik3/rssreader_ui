@@ -17,7 +17,7 @@ export class NewsComponent implements OnInit {
       this.items = data;
     });
 
-    this.httpClient.get('http://localhost:8080/feeds/src').subscribe((data) => {
+    this.httpClient.get('http://localhost:8080/feeds/srcOfNews').subscribe((data) => {
       this.src = data;
       console.log(this.src);
     });

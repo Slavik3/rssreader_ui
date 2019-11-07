@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import { SourceComponent } from './source/source.component';
@@ -19,7 +19,7 @@ const appRoutes: Routes = [
     NewsComponent,
   ],
   imports: [
-    BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes), ReactiveFormsModule
+    BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]

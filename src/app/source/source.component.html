@@ -12,14 +12,14 @@
     <tbody>
     <tr *ngFor="let sourceItem of sourceItems">
       <input type="hidden" value="{{sourceItem.id}}">
-      <td style="width: 35%;"><input value="{{sourceItem.sourceURL}}" class="form-control"></td>
-      <td style="width: 15%;"><input value="{{sourceItem.title}}" class="form-control"></td>
-      <td style="width: 18%;"><input value="{{sourceItem.description}}" class="form-control"></td>
-      <td style="width: 10%;"><input value="{{sourceItem.link}}" class="form-control"></td>
-      <td style="width: 15%;"><input value="{{sourceItem.pubDate}}" class="form-control"></td>
+      <td style="width: 35%;"><input value="{{sourceItem.sourceURL}}" class="form-control" readonly></td>
+      <td style="width: 15%;"><input value="{{sourceItem.title}}" class="form-control" readonly></td>
+      <td style="width: 18%;"><input value="{{sourceItem.description}}" class="form-control" readonly></td>
+      <td style="width: 10%;"><input value="{{sourceItem.link}}" class="form-control" readonly></td>
+      <td style="width: 15%;"><input value="{{sourceItem.pubDate}}" class="form-control" readonly></td>
       <td>
         <a href="#editEmployeeModal" data-id="{{sourceItem.id}}" class="save" data-toggle="modal" id="{{sourceItem.id}}" (click)="open(sourceItem)" >
-          <i class="material-icons" data-toggle="tooltip" title="Save">&#xe161;</i>
+          <i class="material-icons" data-toggle="tooltip" title="Edit">&#xe3c9;</i>
         </a>
       </td>
       <td>
@@ -28,18 +28,22 @@
         </a>
       </td>
     </tr>
+    </tbody>
+  </table>
+  <form ng-submit="addSrc()">
+    <table class="table table-hover" style="text-align: left;" name="newSource">
+    <tbody>
     <tr>
-      <td style="width: 30%;"><input formControlName="s_url" type="url" [(ngModel)]="newSourceURL" type="text" class="form-control"></td>
-      <td><input class="form-control" value="title"></td>
-      <td><input class="form-control" value="description"></td>
-      <td><input class="form-control" value="link"></td>
-      <td><input class="form-control" value="pubDate"></td>
-
-      <td><button type="button" class="btn btn-primary" (click)="addSrc()">Add</button></td>
+      <td style="width: 35%;"><input [(ngModel)]="newSourceURL" name="src" id="src" class="form-control"></td>
+      <td style="width: 15%;"> <input class="form-control" value="title" id="newTitle"></td>
+      <td style="width: 18%;"><input class="form-control" value="description" id="newDescription"></td>
+      <td style="width: 10%;"><input class="form-control" value="link" id="newLink"></td>
+      <td style="width: 15%;"><input class="form-control" value="pubDate" id="newPubDate"></td>
+      <td><input type="submit" value="Add" class="btn btn-primary" (click)="addSrc()"></td>
     </tr>
     </tbody>
   </table>
-
+  </form>
 
 
   <!-- Edit Modal HTML -->
@@ -53,27 +57,27 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <input class="form-control" value="{{editItem.id}}" required>
+              <input type="hidden" class="form-control" value="{{editItem.id}}" required>
             </div>
             <div class="form-group">
               <label>source URL</label>
-              <input [(ngModel)]="sourceURL" name="modifiedSourceURL" class="form-control" value="{{editItem.sourceURL}}" required>
+              <input [(ngModel)]="sourceURL" name="modifiedSourceURL" id="modifiedSourceURL" class="form-control" value="{{editItem.sourceURL}}" required>
             </div>
             <div class="form-group">
               <label>title name</label>
-              <input [(ngModel)]="title" name="title" class="form-control" required>
+              <input [(ngModel)]="title" name="title" id="title" class="form-control" value="{{editItem.title}}" required>
             </div>
             <div class="form-group">
               <label>description name</label>
-              <textarea [(ngModel)]="description" name="description" class="form-control" required></textarea>
+              <input [(ngModel)]="description" name="description" id="description" class="form-control" value="{{editItem.description}}" required>
             </div>
             <div class="form-group">
               <label>link name</label>
-              <input [(ngModel)]="link" type="text" name="link" class="form-control" required>
+              <input [(ngModel)]="link" type="text" name="link" id="link" class="form-control" value="{{editItem.link}}" required>
             </div>
             <div class="form-group">
               <label>pubDate name</label>
-              <input [(ngModel)]="pubDate" name="pubDate" class="form-control" required>
+              <input [(ngModel)]="pubDate" name="pubDate" id="pubDate" class="form-control" value="{{editItem.pubDate}}" required>
             </div>
           </div>
           <div class="modal-footer">
