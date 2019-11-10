@@ -12,7 +12,6 @@ export class SourceComponent implements OnInit {
   editSource: Source = new Source();
   ids: number;
   sourceItems: any;
-  // editItem: any;
   newSourceURL: string;
   constructor(private httpClient: HttpClient) { }
 
@@ -54,18 +53,18 @@ export class SourceComponent implements OnInit {
 
   }
 
-  open(editItem: any) {
+  open(editSource: any) {
     console.log('open');
-    console.log(editItem);
-    this.editSource.id = editItem.id;
-    this.editSource.sourceURL = editItem.sourceURL;
-    this.editSource.title = editItem.title;
-    this.editSource.description = editItem.description;
-    this.editSource.link = editItem.link;
-    this.editSource.pubDate = editItem.pubDate;
-    this.editSource.hostname = editItem.hostname;
+    console.log(editSource);
+    this.editSource.id = editSource.id;
+    this.editSource.sourceURL = editSource.sourceURL;
+    this.editSource.title = editSource.title;
+    this.editSource.description = editSource.description;
+    this.editSource.link = editSource.link;
+    this.editSource.pubDate = editSource.pubDate;
+    this.editSource.hostname = editSource.hostname;
 
-    editItem.sourceURL = this.editSource.sourceURL;
+    editSource.sourceURL = this.editSource.sourceURL;
 
   }
 
@@ -82,9 +81,14 @@ export class SourceComponent implements OnInit {
     };
     console.log(body);
     this.httpClient.put(`http://localhost:8080/sources/${this.ids}`, body).subscribe();
-    window.location.reload();
 
-}
+    const targetIdx = this.sourceItems.map(item => item.id).indexOf(ob.id);
+    this.sourceItems[targetIdx].sourceURL = this.editSource.sourceURL;
+    this.sourceItems[targetIdx].title = this.editSource.title;
+    this.sourceItems[targetIdx].description = this.editSource.description;
+    this.sourceItems[targetIdx].link = this.editSource.link;
+    this.sourceItems[targetIdx].pubDate = this.editSource.pubDate;
 
+  }
 
 }
