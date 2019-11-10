@@ -5,4 +5,5 @@ export class Source {
   description: string;
   link: string;
   pubDate: string;
+  hostname: string;
 }
