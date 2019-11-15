@@ -39,4 +39,11 @@ export class NewsComponent implements OnInit {
     });
   }*/
 
+  upload() {
+    this.httpClient.post('http://localhost:8080/feeds/upload', '').subscribe();
+  }
+  uploadBySrc() {
+    this.httpClient.post(`http://localhost:8080/feeds/upload?source=${this.name}`, '').subscribe();
+  }
+
 }

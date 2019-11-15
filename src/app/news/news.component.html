@@ -2,15 +2,15 @@
   <option></option>
   <option *ngFor="let sources of src">{{sources}}</option>
 </select>
+<button type="button" class="btn btn-primary" (click)="upload()">upload</button>
+<button type="button" class="btn btn-primary" (click)="uploadBySrc()">uploadBySrc</button>
 
-<!--<input type="text" class="form-control" (keyup)="onNameKeyUp($event)">
-<button type="button" class="btn btn-primary" (click)="getNewsBySrc()">Get News by src</button>-->
 <br><br>
 
 <br><br>
 <div *ngFor="let element of items">
   <div><a href="{{element.link}}">{{element.title}}</a></div>
   <div>{{element.description}}</div>
-  <div>{{element.pubDate | date:'medium'}}</div>
+  <div style="font-size: small"><i>Source: {{element.source}}, Publication date: {{element.pubDate | date:'medium'}}</i></div>
   <br>
 </div>
