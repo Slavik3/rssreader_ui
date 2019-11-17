@@ -63,7 +63,7 @@ export class SourceComponent implements OnInit {
     this.editSource.link = editSource.link;
     this.editSource.pubDate = editSource.pubDate;
     this.editSource.hostname = editSource.hostname;
-
+    this.editSource.isActive = editSource.isActive;
     editSource.sourceURL = this.editSource.sourceURL;
 
   }
@@ -78,6 +78,7 @@ export class SourceComponent implements OnInit {
       link: this.editSource.link,
       hostname: ob.hostname,
       pubDate: this.editSource.pubDate,
+      isActive: this.editSource.isActive
     };
     console.log(body);
     this.httpClient.put(`http://localhost:8080/sources/${this.ids}`, body).subscribe();
@@ -88,7 +89,7 @@ export class SourceComponent implements OnInit {
     this.sourceItems[targetIdx].description = this.editSource.description;
     this.sourceItems[targetIdx].link = this.editSource.link;
     this.sourceItems[targetIdx].pubDate = this.editSource.pubDate;
-
+    this.sourceItems[targetIdx].isActive = this.editSource.isActive;
   }
 
 }

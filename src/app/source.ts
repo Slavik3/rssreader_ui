@@ -6,4 +6,5 @@ export class Source {
   link: string;
   pubDate: string;
   hostname: string;
+  isActive: boolean;
 }

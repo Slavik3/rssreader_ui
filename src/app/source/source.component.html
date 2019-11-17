@@ -79,6 +79,9 @@
               <label>pubDate name</label>
               <input [(ngModel)]="editSource.pubDate" name="pubDate" id="pubDate" class="form-control" value="{{editSource.pubDate}}" required>
             </div>
+
+            <input [(ngModel)]="editSource.isActive" name="isActive" type="checkbox" value="{{editSource.isActive}}">
+
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

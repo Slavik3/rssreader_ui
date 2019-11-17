@@ -10,11 +10,14 @@ export class NewsComponent implements OnInit {
   name: string;
   items: any;
   src: any;
+  isLoading: boolean;
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.httpClient.get('http://localhost:8080/feeds').subscribe((data) => {
       this.items = data;
+      this.isLoading = false;
     });
 
     this.httpClient.get('http://localhost:8080/feeds/srcOfNews').subscribe((data) => {
@@ -40,10 +43,16 @@ export class NewsComponent implements OnInit {
   }*/
 
   upload() {
-    this.httpClient.post('http://localhost:8080/feeds/upload', '').subscribe();
+    this.isLoading = true;
+    this.httpClient.post('http://localhost:8080/feeds/upload', '').subscribe(() => {
+      this.isLoading = false;
+    });
   }
   uploadBySrc() {
-    this.httpClient.post(`http://localhost:8080/feeds/upload?source=${this.name}`, '').subscribe();
+    this.isLoading = true;
+    this.httpClient.post(`http://localhost:8080/feeds/upload?source=${this.name}`, '').subscribe(() => {
+      this.isLoading = false;
+    });
   }
 
 }
