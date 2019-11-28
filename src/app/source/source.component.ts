@@ -40,7 +40,10 @@ export class SourceComponent implements OnInit {
       };
       this.httpClient.post('http://localhost:8080/sources/add', body).subscribe((data) => {
         this.sourceItems.push(data);
-      });
+      },
+        (error) => {
+          window.alert(error.error.message);
+        });
       this.newSource.sourceURL = '';
     }
 }
@@ -48,7 +51,8 @@ export class SourceComponent implements OnInit {
   delete(id: any) {
     if (confirm('Are you sure you want to delete these source?')) {
       this.httpClient.delete(`http://localhost:8080/sources/${id}`).subscribe();
-      this.sourceItems.splice(this.newSource, 1);
+      const targetIdx = this.sourceItems.map(item => item.id).indexOf(id);
+      this.sourceItems.splice(targetIdx, 1);
     }
 
   }
