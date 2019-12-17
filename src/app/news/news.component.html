@@ -9,8 +9,38 @@
 
 <br><br>
 <div *ngFor="let element of items">
-  <div><a href="{{element.link}}">{{element.title}}</a></div>
+  <div>
+    <a href="{{element.link}}">{{element.title}}</a>
+    <a href="#editEmployeeModal" data-toggle="modal" (click)="open(element)">
+      <i class="material-icons" data-toggle="tooltip" title="Detail">&#xe89d;</i>
+    </a>
+    <a href="#" data-toggle="modal" (click)="savePDF(element)">
+      <i class="material-icons" data-toggle="tooltip" title="Save as PDF">&#xe415;</i>
+    </a>
+
+  </div>
   <div>{{element.description}}</div>
   <div style="font-size: small"><i>Source: {{element.source}}, Publication date: {{element.pubDate | date:'medium'}}</i></div>
   <br>
+</div>
+
+<!-- Edit Modal HTML -->
+<div id="editEmployeeModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form>
+        <div class="modal-header">
+          <h4 class="modal-title">{{title}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+
+          <div [innerHTML]="htmlBodyDetail"></div>
+
+
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

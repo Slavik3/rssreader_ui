@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {News} from '../news';
 
 @Component({
   selector: 'app-news',
@@ -7,10 +8,13 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./news.component.scss']
 })
 export class NewsComponent implements OnInit {
+  news: News = new News();
   name: string;
   items: any;
   src: any;
   isLoading: boolean;
+  htmlBodyDetail: string;
+  title: string;
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
@@ -55,4 +59,23 @@ export class NewsComponent implements OnInit {
     });
   }
 
+  open(newsItem: any) {
+    console.log('open new');
+    console.log(newsItem);
+    console.log(newsItem.id);
+    console.log(newsItem.html_body_detail);
+    this.htmlBodyDetail = newsItem.html_body_detail;
+    this.title = newsItem.title;
+    this.httpClient.get(`http://localhost:8080/feeds/openArticleFromDB/${newsItem.id}`).subscribe((data) => {
+      console.log(data);
+    });
+    console.log();
+  }
+
+  savePDF(newsItem: any) {
+    console.log('savePDF');
+    this.httpClient.get(`http://localhost:8080/feeds/savePDF/${newsItem.id}`).subscribe((data) => {
+
+    });
+  }
 }
