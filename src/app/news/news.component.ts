@@ -66,16 +66,11 @@ export class NewsComponent implements OnInit {
     console.log(newsItem.html_body_detail);
     this.htmlBodyDetail = newsItem.html_body_detail;
     this.title = newsItem.title;
-    this.httpClient.get(`http://localhost:8080/feeds/openArticleFromDB/${newsItem.id}`).subscribe((data) => {
-      console.log(data);
-    });
-    console.log();
+    this.httpClient.get(`http://localhost:8080/feeds/openArticleFromDB/${newsItem.id}`, {responseType: 'text'}).subscribe();
   }
 
   savePDF(newsItem: any) {
     console.log('savePDF');
-    this.httpClient.get(`http://localhost:8080/feeds/savePDF/${newsItem.id}`).subscribe((data) => {
-
-    });
+    this.httpClient.get(`http://localhost:8080/feeds/savePDF/${newsItem.id}`).subscribe();
   }
 }
