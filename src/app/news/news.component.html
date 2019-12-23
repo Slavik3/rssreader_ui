@@ -7,8 +7,44 @@
 <div *ngIf="isLoading">Loading...</div>
 <br><br>
 
+
+
 <br><br>
-<div *ngFor="let element of items">
+<table class="table table-hover" border="0">
+  <thead>
+  <tr>
+    <th style="text-align: center;" scope="col">Id</th>
+    <th style="text-align: center;" scope="col">Title</th>
+    <th style="text-align: center;" scope="col">Source</th>
+    <th style="text-align: center;" scope="col">Publication date</th>
+    <th style="text-align: center;" scope="col">Save as PDF</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let element of items">
+      <td style="text-align: center;">{{element.id}}</td>
+      <td style="text-align: center;"><a href="{{element.link}}">{{element.title}}</a></td>
+      <td style="text-align: center;">{{element.source}}</td>
+      <td style="text-align: center;">{{element.pubDate | date:'medium'}}</td>
+      <td style="text-align: center;">
+          <a href="#" data-toggle="modal" (click)="savePDF(element)">
+            <i class="material-icons" data-toggle="tooltip" title="Save as PDF">&#xe415;</i>
+          </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<hr>
+<ul class="nav nav-pills">
+  <li class="nav-item" *ngFor="let p of pages; let i=index">
+    <a href="#" class="nav-link active" (click)="setPage(i, $event)">{{i}}</a>
+  </li>
+</ul>
+<br><br>
+
+
+
+<!--<div *ngFor="let element of items">
   <div>
     <a href="{{element.link}}">{{element.title}}</a>
     <a href="#editEmployeeModal" data-toggle="modal" (click)="open(element)">
@@ -22,7 +58,7 @@
   <div>{{element.description}}</div>
   <div style="font-size: small"><i>Source: {{element.source}}, Publication date: {{element.pubDate | date:'medium'}}</i></div>
   <br>
-</div>
+</div>-->
 
 <!-- Edit Modal HTML -->
 <div id="editEmployeeModal" class="modal fade">

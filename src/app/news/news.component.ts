@@ -8,6 +8,9 @@ import {News} from '../news';
   styleUrls: ['./news.component.scss']
 })
 export class NewsComponent implements OnInit {
+  private page = 0;
+  private newss: Array<any>;
+  private pages: Array<number>;
   news: News = new News();
   name: string;
   items: any;
@@ -17,12 +20,20 @@ export class NewsComponent implements OnInit {
   title: string;
   constructor(private httpClient: HttpClient) { }
 
+  setPage(i, event: any) {
+    event.preventDefault();
+    console.log(i)
+    this.page = i;
+    this.getN();
+  }
+
   ngOnInit() {
     this.isLoading = true;
-    this.httpClient.get('http://localhost:8080/feeds').subscribe((data) => {
+    /*this.httpClient.get(`http://localhost:8080/feeds`).subscribe((data) => {
       this.items = data;
       this.isLoading = false;
-    });
+    });*/
+    this.getN();
 
     this.httpClient.get('http://localhost:8080/feeds/srcOfNews').subscribe((data) => {
       this.src = data;
@@ -35,9 +46,18 @@ export class NewsComponent implements OnInit {
   }*/
   onChange(src) {
     this.name = src;
-    this.httpClient.get(`http://localhost:8080/feeds?source=${this.name}`).subscribe((data) => {
-      this.items = data;
-    });
+    return this.httpClient.get(`http://localhost:8080/feeds?source=${this.name}&page=${this.page}`).subscribe
+    (
+      date => {
+        //console.log(date);
+        this.items = date['content'];
+        this.pages = new Array(date['totalPages']);
+        this.isLoading = false;
+      },
+      (error => {
+        console.log(error.error.message);
+      })
+    );
   }
 
   /*getNewsBySrc() {
@@ -85,4 +105,20 @@ export class NewsComponent implements OnInit {
       downloadLink.click();
     });
   }
+
+  getN() {
+    return this.httpClient.get('http://localhost:8080' + '/feeds?page=' + this.page).subscribe(
+      date => {
+        //console.log(date);
+        this.items = date['content'];
+        this.pages = new Array(date['totalPages']);
+        this.isLoading = false;
+      },
+      (error => {
+        console.log(error.error.message);
+      })
+    );
+  }
+
+
 }
