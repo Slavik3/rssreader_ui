@@ -71,6 +71,18 @@ export class NewsComponent implements OnInit {
 
   savePDF(newsItem: any) {
     console.log('savePDF');
-    this.httpClient.get(`http://localhost:8080/feeds/savePDF/${newsItem.id}`).subscribe();
+    this.httpClient.get(`http://localhost:8080/feeds/savePDF/${newsItem.id}`, {responseType: 'arraybuffer'}).subscribe((response: any) => {
+      let dataType = response.type;
+      let binaryData = [];
+      binaryData.push(response);
+      let downloadLink = document.createElement('a');
+      let name = (newsItem.id);
+      downloadLink.href = window.URL.createObjectURL(new Blob(binaryData, {type: dataType}));
+      if (name + '.pdf') {
+        downloadLink.setAttribute('download', name + '.pdf');
+      }
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+    });
   }
 }
