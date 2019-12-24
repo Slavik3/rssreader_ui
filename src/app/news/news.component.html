@@ -1,14 +1,20 @@
+<button type="button" class="btn btn-primary" (click)="upload()">upload</button>
+<button type="button" class="btn btn-primary" (click)="uploadBySrc()">uploadBySrc</button>
+
 <select (change)="onChange($event.target.value)" class="form-control">
   <option></option>
   <option *ngFor="let sources of src">{{sources}}</option>
 </select>
-<button type="button" class="btn btn-primary" (click)="upload()">upload</button>
-<button type="button" class="btn btn-primary" (click)="uploadBySrc()">uploadBySrc</button>
+
 <div *ngIf="isLoading">Loading...</div>
-<br><br>
+<br>
+<input type="text" class="form-control" placeholder="Title" (keypress)="filterByTitle($event)">
+<br>
 
-
-
+<div class="input-group">
+<input type="date" style="width:50% " class="form-control pull-right" placeholder="Select date range"  (change)="selectDateRange()"/>
+<input type="date" style="width:50% " class="form-control pull-right" placeholder="Select date range"  (change)="selectDateRange()"/>
+</div>
 <br><br>
 <table class="table table-hover" border="0">
   <thead>
@@ -16,7 +22,7 @@
     <th style="text-align: center;" scope="col">Id</th>
     <th style="text-align: center;" scope="col">Title</th>
     <th style="text-align: center;" scope="col">Source</th>
-    <th style="text-align: center;" scope="col">Publication date</th>
+    <th style="text-align: center;" scope="col" (click)="sortTableByPublicationDate()">Publication date</th>
     <th style="text-align: center;" scope="col">Save as PDF</th>
   </tr>
   </thead>
@@ -35,11 +41,13 @@
   </tbody>
 </table>
 <hr>
-<ul class="nav nav-pills">
-  <li class="nav-item" *ngFor="let p of pages; let i=index">
-    <a href="#" class="nav-link active" (click)="setPage(i, $event)">{{i}}</a>
+
+<ul class="pagination pg-blue">
+  <li class="page-item " *ngFor="let p of pages; let i=index">
+    <a href="#" class="page-link" (click)="setPage(i, $event)">{{i+1}}</a>
   </li>
 </ul>
+
 <br><br>
 
 

@@ -18,22 +18,19 @@ export class NewsComponent implements OnInit {
   isLoading: boolean;
   htmlBodyDetail: string;
   title: string;
+  sortTableByPublicationDatee = 'ASC';
   constructor(private httpClient: HttpClient) { }
 
   setPage(i, event: any) {
     event.preventDefault();
     console.log(i)
     this.page = i;
-    this.getN();
+    this.getNews();
   }
 
   ngOnInit() {
     this.isLoading = true;
-    /*this.httpClient.get(`http://localhost:8080/feeds`).subscribe((data) => {
-      this.items = data;
-      this.isLoading = false;
-    });*/
-    this.getN();
+    this.getNews();
 
     this.httpClient.get('http://localhost:8080/feeds/srcOfNews').subscribe((data) => {
       this.src = data;
@@ -106,10 +103,9 @@ export class NewsComponent implements OnInit {
     });
   }
 
-  getN() {
-    return this.httpClient.get('http://localhost:8080' + '/feeds?page=' + this.page).subscribe(
+  getNews() {
+    return this.httpClient.get(`http://localhost:8080/feeds?sortTableByPublicationDate=${this.sortTableByPublicationDatee}&source=${this.name}&page=${this.page}`).subscribe(
       date => {
-        //console.log(date);
         this.items = date['content'];
         this.pages = new Array(date['totalPages']);
         this.isLoading = false;
@@ -121,4 +117,55 @@ export class NewsComponent implements OnInit {
   }
 
 
+  filterByTitle(event: any) {
+    let title = event.target.value;
+    console.log(title);
+    return this.httpClient.get(`http://localhost:8080/feeds?source=${this.name}&page=${this.page}&title=${title}`).subscribe(
+      date => {
+        this.items = date['content'];
+        this.pages = new Array(date['totalPages']);
+        this.isLoading = false;
+      },
+      (error => {
+        console.log(error.error.message);
+      })
+    );
+  }
+
+  sortTableByPublicationDate() {
+    return this.httpClient.get(`http://localhost:8080/feeds?sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`).subscribe(
+      date => {
+        this.items = date['content'];
+        this.pages = new Array(date['totalPages']);
+        this.isLoading = false;
+        if (this.sortTableByPublicationDatee === 'ASC') {
+          this.sortTableByPublicationDatee = 'DESC';
+        } else {
+          this.sortTableByPublicationDatee = 'ASC';
+        }
+        console.log(this.sortTableByPublicationDatee);
+      },
+      (error => {
+        console.log(error.error.message);
+      })
+    );
+  }
+
+
+  selectDateRange(dateFrom: string, dateTo: string) {
+    console.log(dateFrom);
+    console.log(dateTo);
+    return this.httpClient.get(`http://localhost:8080/feeds?sortTableByPublicationDate=${this.sortTableByPublicationDatee}&dateFrom=${dateFrom}&dateTo=${dateTo}&page=${this.page}`).subscribe(
+      date => {
+        this.items = date['content'];
+        this.pages = new Array(date['totalPages']);
+        this.isLoading = false;
+
+
+      },
+      (error => {
+        console.log(error.error.message);
+      })
+    );
+  }
 }
