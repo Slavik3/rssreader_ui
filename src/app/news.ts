@@ -1,3 +1,6 @@
 export class News {
-  articleFromDB: string;
+  title: string;
+  source: string;
+  dateFrom: string;
+  dateTo: string;
 }
