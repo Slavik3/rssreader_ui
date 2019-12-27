@@ -25,7 +25,7 @@ export class NewsComponent implements OnInit {
     event.preventDefault();
     console.log(i)
     this.page = i;
-    this.getNews();
+    this.onChange();
   }
 
   ngOnInit() {
@@ -43,9 +43,10 @@ export class NewsComponent implements OnInit {
     this.name = event.target.value;
   }*/
   onChange() {
+    console.log('title--> ')
+    console.log(this.news.title)
     return this.httpClient.get
-    (`http://localhost:8080/feeds?source=${this.news.source}&title=${this.news.title}
-    &dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`)
+    (`http://localhost:8080/feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`)
       .subscribe (
       date => {
         //console.log(date);
@@ -107,7 +108,7 @@ export class NewsComponent implements OnInit {
 
   getNews() {
     return this.httpClient.get
-    (`http://localhost:8080/feeds?sortTableByPublicationDate=${this.sortTableByPublicationDatee}
+    (`http://localhost:8080/feeds/all?sortTableByPublicationDate=${this.sortTableByPublicationDatee}
     &dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&source=${this.name}&title=${this.news.title}&page=${this.page}`).subscribe(
       date => {
         this.items = date['content'];
@@ -122,7 +123,7 @@ export class NewsComponent implements OnInit {
 
 
   /*filterByTitle() {
-    return this.httpClient.get(`http://localhost:8080/feeds?source=${this.news.source}&page=${this.page}&title=${this.news.title}`).subscribe(
+    return this.httpClient.get(`http://localhost:8080/feeds?page=${this.page}&title=${this.news.title}`).subscribe(
       date => {
         this.items = date['content'];
         this.pages = new Array(date['totalPages']);
@@ -135,7 +136,7 @@ export class NewsComponent implements OnInit {
   }*/
 
   sortTableByPublicationDate() {
-    return this.httpClient.get(`http://localhost:8080/feeds?sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`).subscribe(
+    return this.httpClient.get(`http://localhost:8080/feeds/sort?sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`).subscribe(
       date => {
         this.items = date['content'];
         this.pages = new Array(date['totalPages']);

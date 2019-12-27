@@ -8,7 +8,7 @@
 
 <div *ngIf="isLoading">Loading...</div>
 <br>
-<input type="text" class="form-control" placeholder="Title" (keypress)="onChange()" [(ngModel)]="news.title">
+<input type="text" class="form-control" placeholder="Title" (change)="onChange()" [(ngModel)]="news.title">
 <br>
 
 <div class="input-group">
