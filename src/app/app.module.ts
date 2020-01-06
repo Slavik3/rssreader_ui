@@ -7,6 +7,7 @@ import { SourceComponent } from './source/source.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NewsComponent } from './news/news.component';
 import {NewsService} from './news/news.service';
+import { JwPaginationComponent } from 'jw-angular-pagination';
 
 const appRoutes: Routes = [
   {path: 'source', component: SourceComponent},
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
     AppComponent,
     SourceComponent,
     NewsComponent,
+    JwPaginationComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes)

@@ -43,15 +43,13 @@ export class NewsComponent implements OnInit {
     this.name = event.target.value;
   }*/
   onChange() {
-    console.log('title--> ')
-    console.log(this.news.title)
     return this.httpClient.get
     (`http://localhost:8080/feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`)
       .subscribe (
       date => {
-        //console.log(date);
         this.items = date['content'];
         this.pages = new Array(date['totalPages']);
+
         this.isLoading = false;
       },
       (error => {
@@ -59,12 +57,26 @@ export class NewsComponent implements OnInit {
       })
     );
   }
+  changeSort() {
+    if (this.sortTableByPublicationDatee === 'ASC') {
+      this.sortTableByPublicationDatee = 'DESC';
+    } else {
+      this.sortTableByPublicationDatee = 'ASC';
+    }
+    return this.httpClient.get
+    (`http://localhost:8080/feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&changeSort=true&page=${this.page}`)
+      .subscribe (
+        date => {
+          this.items = date['content'];
+          this.pages = new Array(date['totalPages']);
 
-  /*getNewsBySrc() {
-    this.httpClient.get(`http://localhost:8080/feeds?source=${this.name}`).subscribe((data) => {
-      this.items = data;
-    });
-  }*/
+          this.isLoading = false;
+        },
+        (error => {
+          console.log(error.error.message);
+        })
+      );
+  }
 
   upload() {
     this.isLoading = true;
@@ -120,55 +132,5 @@ export class NewsComponent implements OnInit {
       })
     );
   }
-
-
-  /*filterByTitle() {
-    return this.httpClient.get(`http://localhost:8080/feeds?page=${this.page}&title=${this.news.title}`).subscribe(
-      date => {
-        this.items = date['content'];
-        this.pages = new Array(date['totalPages']);
-        this.isLoading = false;
-      },
-      (error => {
-        console.log(error.error.message);
-      })
-    );
-  }*/
-
-  sortTableByPublicationDate() {
-    return this.httpClient.get(`http://localhost:8080/feeds/sort?sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`).subscribe(
-      date => {
-        this.items = date['content'];
-        this.pages = new Array(date['totalPages']);
-        this.isLoading = false;
-        if (this.sortTableByPublicationDatee === 'ASC') {
-          this.sortTableByPublicationDatee = 'DESC';
-        } else {
-          this.sortTableByPublicationDatee = 'ASC';
-        }
-        console.log(this.sortTableByPublicationDatee);
-      },
-      (error => {
-        console.log(error.error.message);
-      })
-    );
-  }
-
-
-  /*selectDateRange() {
-    console.log(this.dateFrom);
-    return this.httpClient.get(
-      `http://localhost:8080/feeds?sortTableByPublicationDate=${this.sortTableByPublicationDatee}
-      &dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&page=${this.page}`).subscribe(
-      date => {
-        this.items = date['content'];
-        this.pages = new Array(date['totalPages']);
-        this.isLoading = false;
-      },
-      (error => {
-        console.log(error.error.message);
-      })
-    );
-  }*/
 
 }
