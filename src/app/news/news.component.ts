@@ -8,23 +8,47 @@ import {News} from '../news';
   styleUrls: ['./news.component.scss']
 })
 export class NewsComponent implements OnInit {
-  private page = 0;
+  private page = 1;
   private pages: Array<number>;
+
   news: News = new News();
   name: string;
-  items: any;
+  newsItems = [];
   src: any;
   isLoading: boolean;
   htmlBodyDetail: string;
   title: string;
   sortTableByPublicationDatee = 'ASC';
 
+  items = [];
+  pageOfItems: Array<any>;
+
+  items10: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  firstPaginationElement: number;
+  lastPaginationElement: number;
+
+  startPage: number;
+  endPage: number;
+
   constructor(private httpClient: HttpClient) { }
 
-  setPage(i, event: any) {
+  setPage(i, event:any) {
     event.preventDefault();
     console.log(i)
     this.page = i;
+    if (i !== 0) {
+      document.getElementById("previous").classList.remove("disabled");
+    }
+    if (i == 0) {
+      document.getElementById("previous").classList.add("disabled");
+    }
+    if (i == this.pages.length-1) {
+      document.getElementById("next").classList.add("disabled");
+    } else {
+      document.getElementById("next").classList.remove("disabled");
+    }
+
     this.onChange();
   }
 
@@ -35,8 +59,9 @@ export class NewsComponent implements OnInit {
 
     this.httpClient.get('http://localhost:8080/feeds/srcOfNews').subscribe((data) => {
       this.src = data;
-      console.log(this.src);
-    });
+    }
+    );
+
   }
 
   /*onNameKeyUp(event: any) {
@@ -45,18 +70,32 @@ export class NewsComponent implements OnInit {
   onChange() {
     return this.httpClient.get
     (`http://localhost:8080/feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`)
-      .subscribe (
-      date => {
-        this.items = date['content'];
-        this.pages = new Array(date['totalPages']);
+      .subscribe(
+        date => {
+          this.newsItems = date['content'];
+          this.pages = new Array(date['totalPages']);
 
-        this.isLoading = false;
-      },
-      (error => {
-        console.log(error.error.message);
+          this.items10 = this.createRange();
+          this.isLoading = false;
+          //this.pageOfItems = pageOfItems;
+        },
+        (error => {
+          console.log(error.error.message);
       })
     );
   }
+
+  onChangePage(pageOfItems: Array<any>) {
+    // update current page of items
+    console.log('this.pageOfItems==> ');
+    console.log(this.pageOfItems);
+    console.log('pageOfItems==> ');
+    console.log(pageOfItems);
+    //this.items10 = this.createRange();
+    this.pages = pageOfItems;
+    //this.pages = this.createRange();
+  }
+
   changeSort() {
     if (this.sortTableByPublicationDatee === 'ASC') {
       this.sortTableByPublicationDatee = 'DESC';
@@ -67,9 +106,9 @@ export class NewsComponent implements OnInit {
     (`http://localhost:8080/feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&changeSort=true&page=${this.page}`)
       .subscribe (
         date => {
-          this.items = date['content'];
+          this.newsItems = date['content'];
           this.pages = new Array(date['totalPages']);
-
+          //this.pages = this.createRange();
           this.isLoading = false;
         },
         (error => {
@@ -123,8 +162,10 @@ export class NewsComponent implements OnInit {
     (`http://localhost:8080/feeds/all?sortTableByPublicationDate=${this.sortTableByPublicationDatee}
     &dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&source=${this.name}&title=${this.news.title}&page=${this.page}`).subscribe(
       date => {
-        this.items = date['content'];
+        this.newsItems = date['content'];
         this.pages = new Array(date['totalPages']);
+        /*this.pages = this.createRange();
+        this.items10 = this.createRange();*/
         this.isLoading = false;
       },
       (error => {
@@ -132,5 +173,24 @@ export class NewsComponent implements OnInit {
       })
     );
   }
+
+
+  createRange() {
+    const items: number[] = [];
+    if (this.page <= 6) {
+        this.firstPaginationElement = 1;
+        this.lastPaginationElement = 10;
+      } else {
+        this.firstPaginationElement = this.page - 5;
+        this.lastPaginationElement = this.page + 5;
+      }
+    for (this.firstPaginationElement; this.firstPaginationElement <= this.lastPaginationElement; this.firstPaginationElement++) {
+      items.push(this.firstPaginationElement);
+    }
+    return items;
+    }
+
+
+
 
 }

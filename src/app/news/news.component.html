@@ -1,33 +1,37 @@
 <button type="button" class="btn btn-primary" (click)="upload()">upload</button>
 <button type="button" class="btn btn-primary" (click)="uploadBySrc()">uploadBySrc</button>
 
-<select (change)="onChange()" [(ngModel)]="news.source" class="form-control">
-  <option></option>
-  <option *ngFor="let sources of src">{{sources}}</option>
-</select>
+
 
 <div *ngIf="isLoading">Loading...</div>
 <br>
-<input type="text" class="form-control" placeholder="Title" (change)="onChange()" [(ngModel)]="news.title">
+
 <br>
 
-<div class="input-group">
-<input type="date" style="width:50% " class="form-control pull-right" placeholder="Select date range"  (change)="onChange()" [(ngModel)]="news.dateFrom" data-date-format="YYYY MMMM DD"/>
-<input type="date" style="width:50% " class="form-control pull-right" placeholder="Select date range"  (change)="onChange()" [(ngModel)]="news.dateTo" data-date-format="YYYY MMMM DD"/>
-</div>
-<br><br>
+
 <table class="table table-hover" border="0">
   <thead>
   <tr>
     <th style="text-align: center;" scope="col">Id</th>
-    <th style="text-align: center;" scope="col">Title</th>
-    <th style="text-align: center;" scope="col">Source</th>
-    <th style="text-align: center;" scope="col" (click)="changeSort()">Publication date</th>
+    <th style="text-align: center;" scope="col"><input type="text" class="form-control" placeholder="Title" (change)="onChange()" [(ngModel)]="news.title"></th>
+    <th style="text-align: center;" scope="col">
+      <select (change)="onChange()" [(ngModel)]="news.source" class="form-control">
+        <option style="display:none;" selected>Source</option>
+        <option *ngFor="let sources of src">{{sources}}</option>
+      </select>
+    </th>
+    <th style="text-align: center;" scope="col" (click)="changeSort()">
+      Publication date
+      <div class="input-group">
+        <input type="date" style="width:50% " class="form-control pull-right" placeholder="Select date range"  (change)="onChange()" [(ngModel)]="news.dateFrom" data-date-format="YYYY MMMM DD"/>
+        <input type="date" style="width:50% " class="form-control pull-right" placeholder="Select date range"  (change)="onChange()" [(ngModel)]="news.dateTo" data-date-format="YYYY MMMM DD"/>
+      </div>
+    </th>
     <th style="text-align: center;" scope="col">Save as PDF</th>
   </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let element of items">
+    <tr *ngFor="let element of newsItems">
       <td style="text-align: center;">{{element.id}}</td>
       <td style="text-align: center;"><a href="{{element.link}}">{{element.title}}</a></td>
       <td style="text-align: center;">{{element.source}}</td>
@@ -42,12 +46,18 @@
 </table>
 <hr>
 
-<ul class="pagination pg-blue">
-  <li class="page-item " *ngFor="let p of pages; let i=index">
-    <a href="#" class="page-link" (click)="setPage(i, $event)">{{i+1}}</a>
+<ul class="nav nav-pills">
+  <li class="page-item disabled" id="previous">
+    <a class="page-link" (click)="setPage(page-1, $event)">Previous</a>
+  </li>
+  <li class="nav-item" *ngFor="let p of items10; let i=index">
+    <a href="#" class="nav-link" (click)="setPage(p, $event)" [ngClass]="{'active':p==page}">{{p}}</a>
+  </li>
+  <li class="page-item " id="next">
+    <a class="page-link" (click)="setPage(page+1, $event)">Next</a>
   </li>
 </ul>
-
+<div>{{page+1}}</div>
 <br><br>
 
 <div id="editEmployeeModal" class="modal fade">
