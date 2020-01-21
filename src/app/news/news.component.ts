@@ -20,7 +20,6 @@ export class NewsComponent implements OnInit {
   title: string;
   sortTableByPublicationDatee = 'ASC';
 
-  items = [];
   pageOfItems: Array<any>;
 
   items10: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -28,22 +27,20 @@ export class NewsComponent implements OnInit {
   firstPaginationElement: number;
   lastPaginationElement: number;
 
-  startPage: number;
-  endPage: number;
-
   constructor(private httpClient: HttpClient) { }
 
-  setPage(i, event:any) {
+  setPage(p, event:any) {
+    this.isLoading = true;
     event.preventDefault();
-    console.log(i)
-    this.page = i;
-    if (i !== 0) {
+    console.log(p)
+    this.page = p;
+    if (p !== 0) {
       document.getElementById("previous").classList.remove("disabled");
     }
-    if (i == 0) {
+    if (p == 0) {
       document.getElementById("previous").classList.add("disabled");
     }
-    if (i == this.pages.length-1) {
+    if (p == this.pages.length - 1) {
       document.getElementById("next").classList.add("disabled");
     } else {
       document.getElementById("next").classList.remove("disabled");
@@ -189,8 +186,5 @@ export class NewsComponent implements OnInit {
     }
     return items;
     }
-
-
-
 
 }

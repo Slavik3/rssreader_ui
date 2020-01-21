@@ -1,13 +1,8 @@
 <button type="button" class="btn btn-primary" (click)="upload()">upload</button>
 <button type="button" class="btn btn-primary" (click)="uploadBySrc()">uploadBySrc</button>
 
-
-
-<div *ngIf="isLoading">Loading...</div>
+<div class="loading" *ngIf="isLoading">Loading&#8230;</div>
 <br>
-
-<br>
-
 
 <table class="table table-hover" border="0">
   <thead>
@@ -57,7 +52,6 @@
     <a class="page-link" (click)="setPage(page+1, $event)">Next</a>
   </li>
 </ul>
-<div>{{page+1}}</div>
 <br><br>
 
 <div id="editEmployeeModal" class="modal fade">
