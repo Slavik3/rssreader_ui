@@ -16,13 +16,14 @@ export class NewsComponent implements OnInit {
   newsItems = [];
   src: any;
   isLoading: boolean;
+  error: boolean;
   htmlBodyDetail: string;
   title: string;
   sortTableByPublicationDatee = 'ASC';
 
   pageOfItems: Array<any>;
 
-  items10: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  items10: number[] = [];
 
   firstPaginationElement: number;
   lastPaginationElement: number;
@@ -32,7 +33,6 @@ export class NewsComponent implements OnInit {
   setPage(p, event:any) {
     this.isLoading = true;
     event.preventDefault();
-    console.log(p)
     this.page = p;
     if (p !== 0) {
       document.getElementById("previous").classList.remove("disabled");
@@ -161,12 +161,14 @@ export class NewsComponent implements OnInit {
       date => {
         this.newsItems = date['content'];
         this.pages = new Array(date['totalPages']);
-        /*this.pages = this.createRange();
-        this.items10 = this.createRange();*/
+        for (let i = 1; i < this.pages.length, i <= 10; i++) {
+          this.items10[i - 1] = i;
+        }
         this.isLoading = false;
       },
       (error => {
         console.log(error.error.message);
+        this.error = true;
       })
     );
   }
