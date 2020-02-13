@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {News} from '../news';
+import * as glob from '../globals';
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.scss']
 })
+
 export class NewsComponent implements OnInit {
+  private baseAppUrl = glob.baseAppUrl;
   private page = 1;
   private pages: Array<number>;
 
@@ -54,7 +57,7 @@ export class NewsComponent implements OnInit {
     this.news.dateTo = new Date().toISOString().split('T')[0];
     this.getNews();
 
-    this.httpClient.get('http://localhost:8080/feeds/srcOfNews').subscribe((data) => {
+    this.httpClient.get(this.baseAppUrl + 'feeds/srcOfNews').subscribe((data) => {
       this.src = data;
     }
     );
@@ -66,15 +69,13 @@ export class NewsComponent implements OnInit {
   }*/
   onChange() {
     return this.httpClient.get
-    (`http://localhost:8080/feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`)
+    (this.baseAppUrl + `feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&page=${this.page}`)
       .subscribe(
         date => {
           this.newsItems = date['content'];
           this.pages = new Array(date['totalPages']);
-
           this.items10 = this.createRange();
           this.isLoading = false;
-          //this.pageOfItems = pageOfItems;
         },
         (error => {
           console.log(error.error.message);
@@ -88,9 +89,7 @@ export class NewsComponent implements OnInit {
     console.log(this.pageOfItems);
     console.log('pageOfItems==> ');
     console.log(pageOfItems);
-    //this.items10 = this.createRange();
     this.pages = pageOfItems;
-    //this.pages = this.createRange();
   }
 
   changeSort() {
@@ -100,12 +99,11 @@ export class NewsComponent implements OnInit {
       this.sortTableByPublicationDatee = 'ASC';
     }
     return this.httpClient.get
-    (`http://localhost:8080/feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&changeSort=true&page=${this.page}`)
+    (this.baseAppUrl + `feeds?source=${this.news.source}&title=${this.news.title}&dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&sortTableByPublicationDate=${this.sortTableByPublicationDatee}&changeSort=true&page=${this.page}`)
       .subscribe (
         date => {
           this.newsItems = date['content'];
           this.pages = new Array(date['totalPages']);
-          //this.pages = this.createRange();
           this.isLoading = false;
         },
         (error => {
@@ -116,13 +114,13 @@ export class NewsComponent implements OnInit {
 
   upload() {
     this.isLoading = true;
-    this.httpClient.post('http://localhost:8080/feeds/upload', '').subscribe(() => {
+    this.httpClient.post(this.baseAppUrl + 'feeds/upload', '').subscribe(() => {
       this.isLoading = false;
     });
   }
   uploadBySrc() {
     this.isLoading = true;
-    this.httpClient.post(`http://localhost:8080/feeds/upload?source=${this.name}`, '').subscribe(() => {
+    this.httpClient.post(this.baseAppUrl + `feeds/upload?source=${this.name}`, '').subscribe(() => {
       this.isLoading = false;
     });
   }
@@ -134,12 +132,12 @@ export class NewsComponent implements OnInit {
     console.log(newsItem.html_body_detail);
     this.htmlBodyDetail = newsItem.html_body_detail;
     this.title = newsItem.title;
-    this.httpClient.get(`http://localhost:8080/feeds/openArticleFromDB/${newsItem.id}`, {responseType: 'text'}).subscribe();
+    this.httpClient.get(this.baseAppUrl + `feeds/openArticleFromDB/${newsItem.id}`, {responseType: 'text'}).subscribe();
   }
 
   savePDF(newsItem: any) {
     console.log('savePDF');
-    this.httpClient.get(`http://localhost:8080/feeds/savePDF/${newsItem.id}`, {responseType: 'arraybuffer'}).subscribe((response: any) => {
+    this.httpClient.get(this.baseAppUrl + `feeds/savePDF/${newsItem.id}`, {responseType: 'arraybuffer'}).subscribe((response: any) => {
       let dataType = response.type;
       let binaryData = [];
       binaryData.push(response);
@@ -156,7 +154,7 @@ export class NewsComponent implements OnInit {
 
   getNews() {
     return this.httpClient.get
-    (`http://localhost:8080/feeds/all?sortTableByPublicationDate=${this.sortTableByPublicationDatee}
+    (this.baseAppUrl + `feeds/all?sortTableByPublicationDate=${this.sortTableByPublicationDatee}
     &dateFrom=${this.news.dateFrom}&dateTo=${this.news.dateTo}&source=${this.name}&title=${this.news.title}&page=${this.page}`).subscribe(
       date => {
         this.newsItems = date['content'];
@@ -181,7 +179,11 @@ export class NewsComponent implements OnInit {
         this.lastPaginationElement = 10;
       } else {
         this.firstPaginationElement = this.page - 5;
-        this.lastPaginationElement = this.page + 5;
+        if (this.page + 5 < this.pages.length) {
+          this.lastPaginationElement = this.page + 5;
+        } else {
+          this.lastPaginationElement = this.pages.length - 1;
+        }
       }
     for (this.firstPaginationElement; this.firstPaginationElement <= this.lastPaginationElement; this.firstPaginationElement++) {
       items.push(this.firstPaginationElement);

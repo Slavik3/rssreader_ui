@@ -1,11 +1,11 @@
+<div class="alert alert-danger" *ngIf="error">
+  Something going wrong
+</div>
 <button type="button" class="btn btn-primary" (click)="upload()">upload</button>
 <button type="button" class="btn btn-primary" (click)="uploadBySrc()">uploadBySrc</button>
 
 <div class="loading" *ngIf="isLoading">Loading&#8230;</div>
 <br>
-<div class="alert alert-danger" *ngIf="error">
-  Something going wrong
-</div>
 
 <table class="table table-hover" border="0">
   <thead>

@@ -6,7 +6,6 @@ import {HttpClientModule} from '@angular/common/http';
 import { SourceComponent } from './source/source.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NewsComponent } from './news/news.component';
-import {NewsService} from './news/news.service';
 import { JwPaginationComponent } from 'jw-angular-pagination';
 
 const appRoutes: Routes = [
@@ -24,7 +23,6 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule, FormsModule, HttpClientModule, RouterModule.forRoot(appRoutes)
   ],
-  providers: [NewsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Source} from '../source';
+import * as glob from '../globals';
 
 @Component({
   selector: 'app-source',
@@ -8,6 +9,7 @@ import { Source} from '../source';
   styleUrls: ['./source.component.scss']
 })
 export class SourceComponent implements OnInit {
+  private baseAppUrl = glob.baseAppUrl;
   newSource: Source = new Source();
   editSource: Source = new Source();
   ids: number;
@@ -16,7 +18,7 @@ export class SourceComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit() {
-    this.httpClient.get('http://localhost:8080/sources/getAll').subscribe((data) => {
+    this.httpClient.get(this.baseAppUrl + 'sources/getAll').subscribe((data) => {
       this.sourceItems = data;
       this.newSource.title = 'title'; // default values
       this.newSource.description = 'description';
@@ -38,7 +40,7 @@ export class SourceComponent implements OnInit {
       link: this.newSource.link,
       pubDate: this.newSource.pubDate,
       };
-      this.httpClient.post('http://localhost:8080/sources/add', body).subscribe((data) => {
+      this.httpClient.post(this.baseAppUrl + 'sources/add', body).subscribe((data) => {
         this.sourceItems.push(data);
       },
         (error) => {
@@ -50,7 +52,7 @@ export class SourceComponent implements OnInit {
 
   delete(id: any) {
     if (confirm('Are you sure you want to delete these source?')) {
-      this.httpClient.delete(`http://localhost:8080/sources/${id}`).subscribe();
+      this.httpClient.delete(this.baseAppUrl + `sources/${id}`).subscribe();
       const targetIdx = this.sourceItems.map(item => item.id).indexOf(id);
       this.sourceItems.splice(targetIdx, 1);
     }
@@ -85,7 +87,7 @@ export class SourceComponent implements OnInit {
       isActive: this.editSource.isActive
     };
     console.log(body);
-    this.httpClient.put(`http://localhost:8080/sources/${this.ids}`, body).subscribe();
+    this.httpClient.put(this.baseAppUrl + `sources/${this.ids}`, body).subscribe();
 
     const targetIdx = this.sourceItems.map(item => item.id).indexOf(ob.id);
     this.sourceItems[targetIdx].sourceURL = this.editSource.sourceURL;
